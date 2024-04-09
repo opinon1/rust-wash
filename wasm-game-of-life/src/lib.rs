@@ -1,6 +1,5 @@
 mod utils;
 
-use std::fmt;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
@@ -29,8 +28,8 @@ impl Universe {
         let height = 128;
 
         let cells = (0..width * height)
-            .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 {
+            .map(|_| {
+                if rand::random() {
                     Cell::Alive
                 } else {
                     Cell::Dead
