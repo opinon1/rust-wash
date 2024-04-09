@@ -25,8 +25,8 @@ pub struct Universe {
 #[wasm_bindgen]
 impl Universe {
     pub fn new() -> Universe {
-        let width = 128;
-        let height = 64;
+        let width = 256;
+        let height = 128;
 
         let cells = (0..width * height)
             .map(|i| {
@@ -45,8 +45,15 @@ impl Universe {
         }
     }
 
-    pub fn render(&self) -> String {
-        self.to_string()
+    pub fn width(&self) -> u32 {
+        self.width
+    }
+    pub fn height(&self) -> u32 {
+        self.height
+    }
+
+    pub fn cells(&self) -> *const Cell {
+        self.cells.as_ptr()
     }
 
     fn get_index(&self, row: u32, column: u32) -> usize {
@@ -101,19 +108,5 @@ impl Universe {
         }
 
         self.cells = next;
-    }
-}
-
-impl fmt::Display for Universe {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        for line in self.cells.as_slice().chunks(self.width as usize) {
-            for &cell in line {
-                let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
-                write!(f, "{}", symbol)?;
-            }
-            write!(f, "\n")?;
-        }
-
-        Ok(())
     }
 }
